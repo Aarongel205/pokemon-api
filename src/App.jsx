@@ -5,17 +5,25 @@ import pokemonTitle from './assets/pokemon.webp'
 function App() {
   const [pokemons, setPokemons] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  
   
   const getPokemons = async () => {
-    const request = [];
+    try{
+      const request = [];
     
-     for(let i = 1; i <= 200; i++){
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`);
-      const data = await response.json();
-      request.push(data);
-    }
+      for(let i = 1; i <= 200; i++){
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`);
+        const data = await response.json();
+        request.push(data);
+      }
 
-    setPokemons(request);
+      setPokemons(request);
+    }catch(err){
+      console.error(err);
+    }finally{
+      setLoading(false);
+    }
 
   }
 
@@ -141,9 +149,14 @@ function App() {
   return (
     <section className='bg-[url(./assets/pokemonBgImage.png)] bg-cover bg-center bg-no-repeat flex flex-col justify-center items-center min-h-screen px-4 py-8'>
       <img className='w-64 sm:w-80 md:w-96 mb-8' src={pokemonTitle}></img>
-      <ul className='flex flex-col md:flex-row max-w-6xl gap-4 w-full justify-center'>
-        {displayPokemons}
-      </ul>
+      {loading ? (
+        <p className='text-white text-2xl'>Loading...</p>
+      ) : 
+      (
+        <ul className='flex flex-col md:flex-row max-w-6xl gap-4 w-full justify-center'>
+          {displayPokemons}
+        </ul>
+      )}
       <div className='mt-8 flex flex-wrap justify-center items-center gap-2 max-w-full'>
         <button onClick={prev} className='w-10 h-10 bg-[#c62828] rounded-lg text-white hover:scale-105 transition'>&lt;</button>
         {pageButtons()}
