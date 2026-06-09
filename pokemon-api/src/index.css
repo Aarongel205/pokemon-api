@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins&family=Press+Start+2P&display=swap');
+@import "tailwindcss";
+
+*{
+    font-family: 'Press Start 2P', sans-serif;
+}
+section, body{
+    margin: 0;
+    padding: 0;
+}
+
+p{
+    font-size: 10px;
+    margin: 5px;
+}
+
+.btn-text{
+    font-size: 10px;
+}
