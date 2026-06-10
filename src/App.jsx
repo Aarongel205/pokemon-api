@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import pokemonTitle from './assets/pokemon.webp'
+import runningPikachu from './assets/runningPikachu.gif'
 
 
 function App() {
@@ -150,7 +151,10 @@ function App() {
     <section className='bg-[url(./assets/pokemonBgImage.png)] bg-cover bg-center bg-no-repeat flex flex-col justify-center items-center min-h-screen px-4 py-8'>
       <img className='w-64 sm:w-80 md:w-96 mb-8' src={pokemonTitle}></img>
       {loading ? (
-        <p className='text-white text-2xl'>Loading...</p>
+        <div className='flex flex-col justify-center items-center text-center'>
+          <p className='text-white text-2xl'>Loading...</p>
+          <img className='w-30' src={runningPikachu}></img>
+        </div>
       ) : 
       (
         <ul className='flex flex-col md:flex-row max-w-6xl gap-4 w-full justify-center'>
