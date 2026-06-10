@@ -1,12 +1,30 @@
 import { useEffect, useState } from 'react'
 import pokemonTitle from './assets/pokemon.webp'
 import runningPikachu from './assets/runningPikachu.gif'
-
+import pokemonDay  from './assets/pokemonBgImage.png'
+import pokemonNight from './assets/pokemonNightBg.webp'
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const hours = new Date().getHours();
+
+  const isDay = hours >= 6 && hours < 18;
+
+  const nightStyle = {
+    cardStyle: {
+      backgroundColor: '#023e8a',
+      color: 'white',
+      border: 'border 3px solid #212529'
+    },
+  }
+
+  const dayStyle = {
+    backgroundColor: 'white',
+    color: 'black',
+    border: 'border 3px solid black'
+  }
   
   
   const getPokemons = async () => {
@@ -76,7 +94,9 @@ function App() {
     for(let i = startPage; i <= endPage; i++){
       buttons.push(
         <button className=' bg-[#c62828] w-9 h-9 sm:w-10 sm:h-10 rounded-lg text-white text-sm sm:text-base' style={{
-          filter: currentPage === i ? 'drop-shadow(0 0 5px #c62828)' : '',
+          filter: currentPage === i && isDay ? 'drop-shadow(0 0 5px #c62828)' : 'drop-shadow(0 0 5px #023e8a)',
+          backgroundColor: isDay ? '' : '#023e8a',
+          color: isDay ? '' : 'white',
         }} onClick={() => setCurrentPage(i)} key={i}>
           {i}
         </button>
@@ -132,7 +152,7 @@ function App() {
 
   const displayPokemons = data.map((pokemon, index) => {
     return(
-      <li className='bg-[#f1faee] border-3 border-black sm:w-72 md:w-64 lg:w-72 rounded-lg overflow-hidden shadow-lg' key={index}>
+      <li style={isDay ? dayStyle : nightStyle.cardStyle} className='bg-[#f1faee] border-3 border-black sm:w-72 md:w-64 lg:w-72 rounded-lg overflow-hidden shadow-lg' key={index}>
         <img className='w-full h-48 sm:h-56 object-contain' style={{
           backgroundColor: setBgColor(pokemon.types[0].type.name),
         }} src={pokemon.sprites.front_default}></img>
@@ -148,7 +168,9 @@ function App() {
   }, [])
 
   return (
-    <section className='bg-[url(./assets/pokemonBgImage.png)] bg-cover bg-center bg-no-repeat flex flex-col justify-center items-center min-h-screen px-4 py-8'>
+    <section style={{
+      backgroundImage: `url(${isDay ? pokemonDay : pokemonNight})`
+    }} className='bg-cover bg-center bg-no-repeat flex flex-col justify-center items-center min-h-screen px-4 py-8'>
       <img className='w-64 sm:w-80 md:w-96 mb-8' src={pokemonTitle}></img>
       {loading ? (
         <div className='flex flex-col justify-center items-center text-center'>
@@ -162,9 +184,15 @@ function App() {
         </ul>
       )}
       <div className='mt-8 flex flex-wrap justify-center items-center gap-2 max-w-full'>
-        <button onClick={prev} className='w-10 h-10 bg-[#c62828] rounded-lg text-white hover:scale-105 transition'>&lt;</button>
+        <button style={{
+          backgroundColor: isDay ? '' : '#023e8a',
+          color: isDay ? '' : 'white',
+        }} onClick={prev} className='w-10 h-10 bg-[#c62828] rounded-lg text-white hover:scale-105 transition'>&lt;</button>
         {pageButtons()}
-        <button onClick={next} className='w-10 h-10 bg-[#c62828] rounded-lg text-white hover:scale-105 transition'>&gt;</button>
+        <button style={{
+          backgroundColor: isDay ? '' : '#023e8a',
+          color: isDay ? '' : 'white',
+        }} onClick={next} className='w-10 h-10 bg-[#c62828] rounded-lg text-white hover:scale-105 transition'>&gt;</button>
       </div>
     </section>
   )
