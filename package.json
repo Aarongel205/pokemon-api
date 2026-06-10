@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/Aarongel205/pokemon-api",
+  "homepage": "https://aarongel205.github.io/pokemon-api/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
